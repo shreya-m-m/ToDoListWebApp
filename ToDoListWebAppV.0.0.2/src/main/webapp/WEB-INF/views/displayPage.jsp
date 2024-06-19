@@ -209,7 +209,7 @@
         </c:forEach>
     </table>
     <button type="button" class="add-button" onclick="loadAddTask()">ADD Task</button>
-    <a href="/ToDoListWebAppV0.0.2/" class="add-button">HOME</a>
+    <a href="/ToDoListWebAppV.0.0.2/" class="add-button">HOME</a>
      <c:url var="displayUrl" value="/display1">
 			<c:param name="pageSize" value="${pageSize}" />
 		</c:url>
@@ -239,7 +239,7 @@
     <div id="popup" class="popup" style="display: none;">
         <div class="popup-content">
             <span class="close-button" onclick="closePopup()">&times;</span>
-            <p>Your task is "IN PROGRESS"! Please update the due date.</p>
+            <p>Your task is "IN PROGRESS"! Please update the due Time.</p>
         </div>
     </div>
 </div>
