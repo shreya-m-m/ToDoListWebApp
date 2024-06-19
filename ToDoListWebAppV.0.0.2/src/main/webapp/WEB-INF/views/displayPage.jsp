@@ -79,7 +79,7 @@
     }
      
     td.completed {
-        background-color: #00693E; 
+        background-color: #55DD33; 
     }
 
     .edit-form input[type="text"],
