@@ -32,7 +32,7 @@
         input[type="text"],
         input[type="time"],
         select {
-            width: calc(100% - 22px); /* Adjusted for border width */
+            width: calc(100% - 22px); 
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
