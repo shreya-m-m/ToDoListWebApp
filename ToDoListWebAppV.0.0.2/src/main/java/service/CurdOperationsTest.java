@@ -49,13 +49,13 @@ public class CurdOperationsTest extends CurdOperations {
 	private CurdOperations curdOperations;
 	private MockMvc mockMvc;
 	
+	 // Setup method to initialize mocks and mockMvc
 	  @Before
 	    public void setup() {
 	        MockitoAnnotations.openMocks(this);
 	        when(sessionFactory.openSession()).thenReturn(session);
 	        when(session.beginTransaction()).thenReturn(transaction);
-	        // Mocking the getTransaction method to return the mocked transaction
-	        when(session.getTransaction()).thenReturn(transaction);
+	        when(session.getTransaction()).thenReturn(transaction);// Mocking the getTransaction method to return the mocked transaction
 	    }
 	// Test case for registering a user
 	    @Test
@@ -70,6 +70,7 @@ public class CurdOperationsTest extends CurdOperations {
 	    // Test case for validating user credentials
 	    @Test
 	    public void testValidateUser() {
+	    	//Arrange
 	        String username = "testUser";
 	        String password = "testPassword";
 	        UserEntity user = new UserEntity();
@@ -78,13 +79,16 @@ public class CurdOperationsTest extends CurdOperations {
 	        when(criteria.add(Restrictions.eq("password", password))).thenReturn(criteria);
 	        when(criteria.uniqueResult()).thenReturn(user);
 
+	        //Act
 	        UserEntity result = curdOperations.validateUser(username, password);
-
+	        
+	        //Assert
 	        assertEquals("Returned user should be the expected user", user, result);
 	    }
 
 	    @Test
 	    public void testValidateUser_UserNotFound() {
+	    	//Arrange
 	        String username = "testUser";
 	        String password = "testPassword";
 
@@ -92,15 +96,14 @@ public class CurdOperationsTest extends CurdOperations {
 	        when(criteria.add(Restrictions.eq("username", username))).thenReturn(criteria);
 	        when(criteria.add(Restrictions.eq("password", password))).thenReturn(criteria);
 	        when(criteria.uniqueResult()).thenReturn(null);
-
+	        
+	        //Act
 	        UserEntity result = curdOperations.validateUser(username, password);
-
+	        //Assert
 	        assertNull(result); // Asserts that no user is returned
 	    }
 	    
-	    
-	    
-
+	    // Test Case for Adding Tasks 
 	    @Test
 	    public void testAddTask() {
 	        // Test data
@@ -121,7 +124,8 @@ public class CurdOperationsTest extends CurdOperations {
 	        ArgumentCaptor<TaskEntity> taskCaptor = ArgumentCaptor.forClass(TaskEntity.class);
 	        verify(session).save(taskCaptor.capture());
 	        TaskEntity savedTask = taskCaptor.getValue();
-
+	        
+	        //Assert
 	        // Verifying saved task properties
 	        assertNotNull(savedTask); // Verifies if the saved task is not null
 	        assertEquals(description, savedTask.getDescription()); // Verifies if the description matches
@@ -131,6 +135,8 @@ public class CurdOperationsTest extends CurdOperations {
 	        assertEquals(user, savedTask.getUser()); // Verifies if the user matches
 	        verify(transaction).commit(); // Verifies if transaction.commit was called
 	    }
+	    
+	    // Test case for getting the tasks 
 	    @Test
 	    public void testGetTask() {
 	        // Arrange
@@ -154,8 +160,10 @@ public class CurdOperationsTest extends CurdOperations {
 
 	        // Assert
 	        assertEquals(expectedTasks.size(), actualTasks.size());
-	        // Additional assertions if needed
+	        
 	    }
+	    
+	    //Test case for updating the task 
 	    @Test
 	    public void testUpdateTask() {
 	        // Arrange
@@ -164,7 +172,7 @@ public class CurdOperationsTest extends CurdOperations {
 	        updatedTask.setDescription("Updated description");
 	        updatedTask.setToTime("14:00");
 	        updatedTask.setStatus("Completed");
-	        
+	        // Act
 	        TaskEntity existingTask = new TaskEntity();
 	        existingTask.setTask_id(1L); // Set the task id for the existing task
 	        existingTask.setDescription("Old description");
@@ -183,6 +191,7 @@ public class CurdOperationsTest extends CurdOperations {
 	        verify(transaction).commit();
 	    }
 
+	    //Test case for deleting the task
 	    @Test
 	    public void testDeleteTask() {
 	        // Arrange
@@ -199,6 +208,8 @@ public class CurdOperationsTest extends CurdOperations {
 	        verify(session).delete(taskToDelete);
 	        verify(transaction).commit();
 	    }
+	    
+	    //test case for to check if the task with FromTime already exists
 	    @Test
 	    public void testIsFromTimeAlreadyExists() {
 	        // Arrange
@@ -220,6 +231,8 @@ public class CurdOperationsTest extends CurdOperations {
 	        // Assert
 	        assertTrue(exists);
 	    }
+	    
+	    // Test case to get total tasks 
 	    @Test
 	    public void testGetTotalTasks() {
 	        // Arrange

@@ -21,7 +21,7 @@ public class CurdOperations {
     @Autowired
 	protected SessionFactory factory;
    
-    
+    // User Registration 
     public UserEntity registerr(UserEntity user) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -34,6 +34,7 @@ public class CurdOperations {
         }
     }
  
+    //Validating the Registered User 
     public UserEntity validateUser(String username, String password) {
         try (Session session = factory.openSession()) {
             Criteria crit = session.createCriteria(UserEntity.class);
@@ -47,15 +48,7 @@ public class CurdOperations {
  
     }
  
-//    public List<UserEntity> getUsers() {
-//        Session session = factory.openSession();
-//        Transaction transaction = session.beginTransaction();
-//        List<UserEntity> users = session.createQuery("FROM UserEntity u", UserEntity.class).getResultList();
-//        transaction.commit();
-//        session.close();
-//        return users;
-//    }
- 
+    // Adding task 
     public TaskEntity addTask(Long userId, String description, String fromTime, String toTime,String status) {
         TaskEntity task = null;
         try (Session session = factory.openSession()) {
@@ -77,7 +70,7 @@ public class CurdOperations {
         return task;
     }
  
- 
+ //Getting the Task 
     public List<TaskEntity> getTask(Long userId, int pageNumber, int pageSize) {
         try (Session session = factory.openSession()) {
         	 Transaction transaction= session.beginTransaction();
@@ -93,7 +86,8 @@ public class CurdOperations {
             return null;
         }
     }
- 
+    
+ //Updating the task
     public void updateTask(TaskEntity updatedTask) {
         try (Session session = factory.openSession()) {
             Transaction tx = session.beginTransaction();
@@ -118,6 +112,7 @@ public class CurdOperations {
         }
     }
 
+    // Deleting the task 
     public TaskEntity deleteTask(TaskEntity task) {
 		Session session = factory.openSession();
 		session.beginTransaction();
@@ -126,6 +121,7 @@ public class CurdOperations {
 		return task;
 	}
 
+    //to check if the task is already exist with the same from time
     public boolean isFromTimeAlreadyExists(Long userId, String fromTime) {
         try (Session session = factory.openSession()) {
             Query<Long> query = session.createQuery("SELECT COUNT(*) FROM TaskEntity t WHERE t.user.user_id = :userId AND t.fromTime = :fromTime", Long.class);
@@ -138,6 +134,8 @@ public class CurdOperations {
             return false;
         }
     }
+    
+    // Alternative method for setting the limit of pagination
 //    public int getTotalTasks(Long userId) {
 //        try (Session session = factory.openSession()) {
 //            Query<Long> query = session.createQuery("SELECT COUNT(*) FROM MyTask t WHERE t.user.id = :userId", Long.class);
@@ -148,6 +146,8 @@ public class CurdOperations {
 //            return 0;
 //        }
 //    }
+    
+    //Fixing the Number Of Pages for Pagination
     public int getTotalTasks(Long userId) {
         // Approximate total tasks to display 5 pages
         int approxTasks = 5;

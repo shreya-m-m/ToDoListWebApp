@@ -69,7 +69,7 @@ public class WebPageControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"));
     }
-    // Test for registration page request mapping
+    // Test for registration  request mapping
     @Test
     public void testRegistration() throws Exception {
         mockMvc.perform(get("/registeration"))
@@ -140,6 +140,7 @@ public class WebPageControllerTest {
         assertEquals("redirect:/display1", result);
     }
 
+    //Test for duplicate fromTime
     @Test
     public void testAddTask_DuplicateFromTime() {
         // Mocking session attribute
@@ -156,6 +157,8 @@ public class WebPageControllerTest {
         verify(model).addAttribute(eq("error"), eq("Task with the same fromTime already exists."));
         assertEquals("addTask", result);
     }
+    
+    //Test to requesting displayPage 
     @Test
     public void testDisplayTasks_UserLoggedIn() {
         // Mocking session attribute
@@ -190,6 +193,7 @@ public class WebPageControllerTest {
         assertEquals("redirect:/login", result);
     }
 
+    // Test for requesting update
     @Test
     public void testUpdateTask() {
         // Mocking updated task
@@ -210,16 +214,14 @@ public class WebPageControllerTest {
     }
 
 
-
+    //Test for requesting deletetask
     @Test
     public void testDeleteTask() throws Exception {
     	 // Perform GET request to delete a task with ID 1
         mockMvc.perform(get("/deletetask")
                 .param("task_id", "1"))
-                .andExpect(status().is3xxRedirection()) // Expect redirection status
-                .andExpect(redirectedUrl("/display1")); // Expect redirection to display1 endpoint
-
-        // Verify that the deleteTask method of the service is called once with any TaskEntity argument
+                .andExpect(status().is3xxRedirection()) 
+                .andExpect(redirectedUrl("/display1")); 
         verify(service, times(1)).deleteTask(any(TaskEntity.class));
     }
 

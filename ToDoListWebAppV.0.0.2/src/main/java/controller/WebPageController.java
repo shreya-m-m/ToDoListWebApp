@@ -20,28 +20,33 @@ public class WebPageController {
     @Autowired
     private CurdOperations service;
 
+    // Request Get mApping for the HomePage
     @GetMapping("/")
     public String home(Model model) {
         return "home";
     }
 
+    //Request Get Mapping for the registeration
     @GetMapping("/registeration")
     public String registration() {
         return "register";
     }
 
+    //Request Post Mapping for the register
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(Model model, UserEntity user) {
         UserEntity localUser = service.registerr(user);
         model.addAttribute("user", localUser);
         return "redirect:/user";
     }
-
+    
+    //Request Get Mapping for the user
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String userLogin() {
         return "userLogin";
     }
 
+    //Request Post Mapping for the login
     @PostMapping("/login")
     public String userLogin(Model model, HttpSession session, @RequestParam("username") String username, @RequestParam("password") String password) {
         UserEntity localUser = service.validateUser(username, password);
@@ -55,10 +60,13 @@ public class WebPageController {
         }
     }
 
+    //Request Get Mapping for the add
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addTask() {
         return "addTask";
     }
+    
+    //Request Post Mapping for the tasks
     @PostMapping("/tasks")
     public String addTask(Model model, HttpSession session, @RequestParam("description") String description,
                           @RequestParam("fromTime") String fromTime, @RequestParam("toTime") String toTime,
@@ -72,7 +80,7 @@ public class WebPageController {
         return "redirect:/display1";
     }
 
-//
+    //Request Get Mapping for the display1
     @GetMapping("/display1")
     public String displayTasks(Model model, HttpSession session, @RequestParam(defaultValue = "1") int pageNumber,
                                @RequestParam(defaultValue = "5") int pageSize) {
@@ -92,13 +100,15 @@ public class WebPageController {
         return "displayPage";
     }
 
+    //Request Post Mapping for the update
     @PostMapping("/update")
     public String updateTask(@ModelAttribute TaskEntity updatedTask, RedirectAttributes redirectAttributes) {
         service.updateTask(updatedTask);
         redirectAttributes.addFlashAttribute("successMessage", "Task Details updated successfully!");
         return "redirect:/display1";
     }
-//
+
+    //Request Get Mapping for the deletetask
     @GetMapping("/deletetask")
     public String deleteUser(@RequestParam("task_id") long id) {
         TaskEntity userToDelete = new TaskEntity(); 
