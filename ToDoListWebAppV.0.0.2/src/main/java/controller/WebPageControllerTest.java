@@ -214,7 +214,7 @@ public class WebPageControllerTest {
     }
 
 
-    //Test for requesting deletetask
+    //Test for requesting Deletetask
     @Test
     public void testDeleteTask() throws Exception {
     	 // Perform GET request to delete a task with ID 1
